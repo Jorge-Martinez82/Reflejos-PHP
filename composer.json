@@ -1,0 +1,25 @@
+{
+    "name": "jorgem/proyecto-reflejos",
+    "description": "Proyecto Reflejos",
+    "type": "project",
+    "require": {
+        "philo/laravel-blade": "^3.1"
+    },
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "Jorgem\\ProyectoReflejos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "cirbcibg",
+            "email": "jmartines@gmail.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+    }
+}
