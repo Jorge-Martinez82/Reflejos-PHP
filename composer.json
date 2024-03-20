@@ -3,7 +3,8 @@
     "description": "Proyecto Reflejos",
     "type": "project",
     "require": {
-        "philo/laravel-blade": "^3.1"
+        "philo/laravel-blade": "^3.1",
+        "kreait/firebase-php": "^5.0"
     },
     "license": "GPL",
     "autoload": {
@@ -19,7 +20,8 @@
     ],
     "config": {
         "allow-plugins": {
-            "kylekatarnls/update-helper": true
+            "kylekatarnls/update-helper": true,
+            "composer/package-versions-deprecated": true
         }
     }
 }
