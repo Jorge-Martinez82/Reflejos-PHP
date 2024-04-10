@@ -42,7 +42,7 @@ foreach ($data['documents'] as $deportista) {
     $html .= "<tr><td>
                     <form method='POST'>
                         <input type='hidden' name='deportistaId' value='{$deportistaId}'>
-                        <button type='submit'>Eliminar Deportista</button>
+                        <button type='submit' onclick=\"return confirm('¿Borrar Deportista?')\">Eliminar Deportista</button>
                     </form>
               </td></tr>";
     $html .= "<tr><td>

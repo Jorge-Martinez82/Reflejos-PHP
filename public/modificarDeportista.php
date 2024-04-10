@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Decodifica la cadena JSON en un array PHP
     $deportista = json_decode($jsonDeportista, true);
     // Accede a los datos del deportista como lo harías con cualquier otro array
+    $parts = explode('/', $deportista['name']);
+    $deportistaId = end($parts);
     $nombre = $deportista['fields']['nombre']['stringValue'];
     $apellido1 = $deportista['fields']['apellido1']['stringValue'];
     $apellido2 = $deportista['fields']['apellido2']['stringValue'];
@@ -27,29 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_formateada = $fechanacimiento->format('Y-m-d');
 }
 
-$deportistasController = new DeportistasController();
 
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    if ($_POST['formulario'] === 'formularioModificar') {
-//        // Capturar los datos específicos del formulario de modificación
-//        $nombre = $_POST['nombre'];
-//        $apellido1 = $_POST['apellido1'];
-//        $apellido2 = $_POST['apellido2'];
-//        $fechanacimiento = $_POST['fechanacimiento'];
-//        $deporte = $_POST['deporte'];
-//        $club = $_POST['club'];
-//    }
-//
-//}
 
-$id = 'khB6n4AKGCbZUNYa0L8Z';
-$array = [
-    'nombre' => 'Sara',
-    'apellido1' => 'Pa',
-    'club' => 'ardoi'
-];
-// Llama al método para crear un nuevo deportista
-$deportistasController->updateDeportista($id , $array);
 
 ?>
 <!DOCTYPE html>
@@ -78,8 +59,9 @@ echo $menuHeader->generateMenu();
 
 <h1>Modificar Deportista</h1>
 
-<form action="modificarDeportista.php" method="post">
+<form action="../src/procesarFormularios.php" method="post">
     <input type="hidden" name="formulario" value="formularioModificar">
+    <input type="hidden" name="idDeportista" value="<?php echo $deportistaId; ?>">
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" placeholder="<?php echo $nombre; ?>"><br><br>
 

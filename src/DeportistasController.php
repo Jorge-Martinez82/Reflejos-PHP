@@ -75,9 +75,15 @@ class DeportistasController {
         ];
 
         foreach ($newUserData as $key => $value) {
-            $jsonArray['fields'][$key] = [
-                'stringValue' => $value
-            ];
+            if ($key === 'fechanacimiento') {
+                $jsonArray['fields'][$key] = [
+                    'timestampValue' => $value,
+                ];
+            } else {
+                $jsonArray['fields'][$key] = [
+                    'stringValue' => $value,
+                ];
+            }
         }
 
         $json = json_encode($jsonArray, JSON_PRETTY_PRINT);
