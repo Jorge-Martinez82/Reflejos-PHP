@@ -3,7 +3,7 @@
         'name' => 'jorgem/proyecto-reflejos',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'c9c7abf552383c4bf9c061369ffe1a40d7ac53bb',
+        'reference' => 'b95ccb10fe5a77c7106d35d81bb0de1cb69ad2e7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -166,7 +166,7 @@
         'jorgem/proyecto-reflejos' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c9c7abf552383c4bf9c061369ffe1a40d7ac53bb',
+            'reference' => 'b95ccb10fe5a77c7106d35d81bb0de1cb69ad2e7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

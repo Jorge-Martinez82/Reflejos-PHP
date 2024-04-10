@@ -3,9 +3,9 @@
 class Header {
     public function generateMenu() {
         $menuItems = [
-            ['url' => 'index.php', 'text' => 'Inicio'],
-            ['url' => 'about.php', 'text' => 'Acerca de'],
-            ['url' => 'contact.php', 'text' => 'Contacto'],
+            ['url' => 'deportistas.php', 'text' => 'Deportistas'],
+            ['url' => 'programas.php', 'text' => 'Programas'],
+            ['url' => 'about.php', 'text' => 'About'],
             // Agrega más elementos de menú según sea necesario
         ];
 
