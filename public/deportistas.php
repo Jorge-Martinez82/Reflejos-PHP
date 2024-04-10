@@ -18,7 +18,7 @@ if (isset($_POST['deportistaId'])) {
     // Obtén el ID del deportista de la solicitud
     $deportistaId = $_POST['deportistaId'];
     // Llama al método deleteUser del controlador para eliminar el deportista
-    $controller->deleteUser($deportistaId);
+    $controller->deleteDeportista($deportistaId);
 
     // Recarga la página para reflejar los cambios (opcional)
     header('Location: deportistas.php');
@@ -30,6 +30,7 @@ $html .= "<table>"; // Inicia la tabla
 $html .= "<tr><th colspan='2'>Detalles del Deportista</th></tr>"; // Agrega una fila para el encabezado
 
 foreach ($data['documents'] as $deportista) {
+    $jsonDeportista = json_encode($deportista);
     $parts = explode('/', $deportista['name']);
     $deportistaId = end($parts);
     // Agrega una fila para cada campo del deportista
@@ -42,6 +43,12 @@ foreach ($data['documents'] as $deportista) {
                     <form method='POST'>
                         <input type='hidden' name='deportistaId' value='{$deportistaId}'>
                         <button type='submit'>Eliminar Deportista</button>
+                    </form>
+              </td></tr>";
+    $html .= "<tr><td>
+                    <form method='POST' action='modificarDeportista.php'>
+                        <input type='hidden' name='deportista' value='".$jsonDeportista."'>
+                        <button type='submit'>Modificar</button>
                     </form>
               </td></tr>";
     // Agrega más filas aquí si es necesario

@@ -61,13 +61,42 @@ class DeportistasController {
     }
 
     // Función para actualizar la información de un usuario
-    public function updateUser($userId, $newUserData) {
+    public function updateDeportista($userId, $newUserData) {
         // Implementa la lógica para actualizar la información de un usuario en la base de datos
+
+        $updateMaskFields = '';
+
+        foreach ($newUserData as $key => $value) {
+            $updateMaskFields .= "&updateMask.fieldPaths={$key}";
+        }
+
+        $jsonArray = [
+            'fields' => []
+        ];
+
+        foreach ($newUserData as $key => $value) {
+            $jsonArray['fields'][$key] = [
+                'stringValue' => $value
+            ];
+        }
+
+        $json = json_encode($jsonArray, JSON_PRETTY_PRINT);
+
+        $url = FIRESTORE_PATH_CD;
+        $key = FIRESTORE_API_KEY;
+        $urlfinal = $url . $userId . '?currentDocument.exists=true' . $updateMaskFields;
+        $client = HttpClient::create();
+
+        $response = $client->request('PATCH', $urlfinal, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'body' => $json,
+        ]);
     }
 
     // Función para eliminar un usuario por su ID
-    public function deleteUser($userId) {
-        var_dump($userId);
+    public function deleteDeportista($userId) {
         $url = FIRESTORE_PATH_CD;
         $key = FIRESTORE_API_KEY;
         $client = HttpClient::create();
