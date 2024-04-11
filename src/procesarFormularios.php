@@ -2,7 +2,7 @@
 require_once '../vendor/autoload.php';
 
 use Jorgem\ProyectoReflejos\DeportistasController;
-
+$deportistasController = new DeportistasController();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar de qué formulario provienen los datos
     if ($_POST['formulario'] === 'formularioModificar') {
@@ -23,22 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Actualizar el array
         $campos_modificados['fechanacimiento'] = $fechaFormateada;
 
-        $deportistasController = new DeportistasController();
 
-        //$id = 'khB6n4AKGCbZUNYa0L8Z';
-        //$array = [
-        //    'nombre' => 'Sara',
-        //    'apellido1' => 'Pa',
-        //    'club' => 'ardoi'
-        //];
-        //// Llama al método para crear un nuevo deportista
-        //$deportistasController->updateDeportista($id , $array);
         array_shift($campos_modificados);
         $idDeportista = array_shift($campos_modificados);
 
         $deportistasController->updateDeportista($idDeportista , $campos_modificados);
         header('Location: ../public/deportistas.php');
-        // y así sucesivamente...
+
     } else{
         // Capturar los datos específicos del formulario de creación
         // Aquí puedes hacer lo que necesites con los datos del formulario de creación
@@ -49,8 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $deporte = $_POST['deporte'];
         $club = $_POST['club'];
 
-        // Instancia el controlador de deportistas
-        $deportistasController = new DeportistasController();
 
         // Llama al método para crear un nuevo deportista
         $resultado = $deportistasController->createDeportista([

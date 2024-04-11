@@ -38,12 +38,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Crear Nuevo Deportista</title>
 </head>
 <body>
-<div>
-    <p><?php echo $_SESSION['usuario']; ?></p>
-    <a href="../src/cerrar.php">Salir</a>
+<div class="d-flex justify-content-between">
+    <h1>Reflejos</h1>
+    <div class="float float-right d-inline-flex mt-2 align-items-baseline">
+        <input type="text" size='10px' value="<?php echo $_SESSION['usuario']; ?>" class="form-control
+    mr-2 bg-transparent text-info font-weight-bold" disabled>
+        <!--boton que ejecuta cerrar.php-->
+        <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
+    </div>
 </div>
 <?php
 // Incluir el archivo donde está definida la clase MenuHeader
@@ -56,8 +63,8 @@ $menuHeader = new Header();
 echo $menuHeader->generateMenu();
 ?>
 
-
-<h1>Modificar Deportista</h1>
+<div class="container mt-4">
+<h4 class="text-center mt-3">Modificar Deportista</h4>
 
 <form action="../src/procesarFormularios.php" method="post">
     <input type="hidden" name="formulario" value="formularioModificar">
@@ -81,9 +88,10 @@ echo $menuHeader->generateMenu();
     <input type="text" id="club" name="club" placeholder="<?php echo $club; ?>"><br><br>
 
     <input type="submit" value="Modificar Deportista">
+    <a href="deportistas.php">Volver</a>
 </form>
-<a href="deportistas.php">Volver</a>
 
+</div>
 <?php
 require_once '../src/Footer.php';
 $footer = new Footer();

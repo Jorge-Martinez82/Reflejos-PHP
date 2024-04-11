@@ -26,8 +26,7 @@ if (isset($_POST['deportistaId'])) {
 }
 
 $html = ''; // Inicializa la variable HTML fuera del bucle
-$html .= "<table>"; // Inicia la tabla
-$html .= "<tr><th colspan='2'>Detalles del Deportista</th></tr>"; // Agrega una fila para el encabezado
+$html .= "<table class='table mt-2'>"; // Inicia la tabla
 
 foreach ($data['documents'] as $deportista) {
     $jsonDeportista = json_encode($deportista);
@@ -42,19 +41,18 @@ foreach ($data['documents'] as $deportista) {
     $html .= "<tr><td>
                     <form method='POST'>
                         <input type='hidden' name='deportistaId' value='{$deportistaId}'>
-                        <button type='submit' onclick=\"return confirm('¿Borrar Deportista?')\">Eliminar Deportista</button>
+                        <button class='btn btn-danger btn-sm' type='submit' onclick=\"return confirm('¿Borrar Deportista?')\">Eliminar</button>
                     </form>
-              </td></tr>";
-    $html .= "<tr><td>
                     <form method='POST' action='modificarDeportista.php'>
                         <input type='hidden' name='deportista' value='".$jsonDeportista."'>
-                        <button type='submit'>Modificar</button>
+                        <button class='btn btn-warning btn-sm' type='submit'>Modificar</button>
                     </form>
               </td></tr>";
+
     // Agrega más filas aquí si es necesario
 }
 
-$html .= "</table>"; // Cierra la tabla
+$html .= "</table>";
 
 
 ?>
@@ -64,30 +62,36 @@ $html .= "</table>"; // Cierra la tabla
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Deportistas</title>
 </head>
 <body>
-<div>
-    <p><?php echo $_SESSION['usuario']; ?></p>
-    <a href="../src/cerrar.php">Salir</a>
+<div class="d-flex justify-content-between">
+    <h1>Reflejos</h1>
+    <div class="float float-right d-inline-flex mt-2 align-items-baseline">
+        <input type="text" size='10px' value="<?php echo $_SESSION['usuario']; ?>" class="form-control
+    mr-2 bg-transparent text-info font-weight-bold" disabled>
+        <!--boton que ejecuta cerrar.php-->
+        <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
+    </div>
 </div>
+
 <?php
 // Incluir el archivo donde está definida la clase MenuHeader
 require_once '../src/Header.php';
-
 // Crear una instancia de la clase MenuHeader
 $menuHeader = new Header();
-
 // Generar el menú header y mostrarlo en la página
 echo $menuHeader->generateMenu();
 ?>
 
-
-<h1>Lista de deportistas</h1>
-<div>
-    <a href="crearDeportista.php">Crear deportista</a>
+<div class="container mt-4">
+    <h4 class="text-center mt-3">Lista de deportistas</h4>
+    <a class="btn btn-outline-primary btn-sm btn-block" href="crearDeportista.php">Crear deportista</a>
+    <?php echo $html; ?>
 </div>
-<?php echo $html; ?>
+
 
 <?php
 require_once '../src/Footer.php';
