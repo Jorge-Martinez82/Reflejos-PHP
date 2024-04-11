@@ -1,6 +1,7 @@
 <?php
 require_once '../vendor/autoload.php';
-
+require_once '../src/Footer.php';
+require_once '../src/Header.php';
 use Jorgem\ProyectoReflejos\DeportistasController;
 
 session_start(); // inicio sesion
@@ -9,6 +10,12 @@ if(!isset($_SESSION['usuario'])){
     header('Location:login.php');
     die();
 }
+
+$header = new Header();
+$htmlHeader= $header->generateMenu();
+
+$footer = new Footer();
+$htmlFooter = $footer->generateFooter();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupera los datos del formulario
@@ -52,16 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
     </div>
 </div>
-<?php
-// Incluir el archivo donde está definida la clase MenuHeader
-require_once '../src/Header.php';
-
-// Crear una instancia de la clase MenuHeader
-$menuHeader = new Header();
-
-// Generar el menú header y mostrarlo en la página
-echo $menuHeader->generateMenu();
-?>
+<div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
+    <?php echo $htmlHeader ?>
+</div>
 
 <div class="container mt-4">
 <h4 class="text-center mt-3">Modificar Deportista</h4>
@@ -69,34 +69,46 @@ echo $menuHeader->generateMenu();
 <form action="../src/procesarFormularios.php" method="post">
     <input type="hidden" name="formulario" value="formularioModificar">
     <input type="hidden" name="idDeportista" value="<?php echo $deportistaId; ?>">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" placeholder="<?php echo $nombre; ?>"><br><br>
 
-    <label for="apellido1">Apellido 1:</label>
-    <input type="text" id="apellido1" name="apellido1" placeholder="<?php echo $apellido1; ?>"><br><br>
 
-    <label for="apellido2">Apellido 2:</label>
-    <input type="text" id="apellido2" name="apellido2" placeholder="<?php echo $apellido2; ?>"><br><br>
-
-    <label for="fechanacimiento">Fecha de Nacimiento:</label>
-    <input type="date" id="fechanacimiento" name="fechanacimiento" value="<?php echo $fecha_formateada; ?>"><br><br>
-
-    <label for="deporte">Deporte:</label>
-    <input type="text" id="deporte" name="deporte" placeholder="<?php echo $deporte; ?>"><br><br>
-
-    <label for="club">Club:</label>
-    <input type="text" id="club" name="club" placeholder="<?php echo $club; ?>"><br><br>
-
-    <input type="submit" value="Modificar Deportista">
-    <a href="deportistas.php">Volver</a>
+    <div class="row">
+        <div class="col">
+            <label for="nombre">Nombre:</label>
+            <input class="form-control" type="text" id="nombre" name="nombre" placeholder="<?php echo $nombre; ?>"><br>
+        </div>
+        <div class="col">
+            <label for="apellido1">Apellido 1:</label>
+            <input class="form-control" type="text" id="apellido1" name="apellido1" placeholder="<?php echo $apellido1; ?>"><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="apellido2">Apellido 2:</label>
+            <input class="form-control" type="text" id="apellido2" name="apellido2" placeholder="<?php echo $apellido2; ?>"><br>
+        </div>
+        <div class="col">
+            <label for="fechanacimiento">Fecha de Nacimiento:</label>
+            <input class="form-control" type="date" id="fechanacimiento" name="fechanacimiento" value="<?php echo $fecha_formateada; ?>"><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="deporte">Deporte:</label>
+            <input class="form-control" type="text" id="deporte" name="deporte" placeholder="<?php echo $deporte; ?>"><br>
+        </div>
+        <div class="col">
+            <label for="club">Club:</label>
+            <input class="form-control" type="text" id="club" name="club" placeholder="<?php echo $club; ?>"><br>
+        </div>
+    </div>
+    <div>
+        <input class="btn btn-outline-warning" type="submit" value="Modificar Deportista">
+        <a  href="deportistas.php">Volver</a>
+    </div>
 </form>
 
 </div>
-<?php
-require_once '../src/Footer.php';
-$footer = new Footer();
-echo $footer->generateFooter();
-?>
+<?php echo $htmlFooter ?>
 </body>
 </html>
 

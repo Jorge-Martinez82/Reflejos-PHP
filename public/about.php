@@ -1,10 +1,20 @@
 <?php
+
 session_start(); // inicio sesion
 // si no existe la variable de session que crea Validar significa que el login ha fallado te redirige otra vez a login
+require_once '../src/Footer.php';
+require_once '../src/Header.php';
+
 if(!isset($_SESSION['usuario'])){
     header('Location:login.php');
     die();
 }
+
+$header = new Header();
+$htmlHeader= $header->generateMenu();
+
+$footer = new Footer();
+$htmlFooter = $footer->generateFooter();
 ?>
 <!doctype html>
 <html lang="en">
@@ -27,24 +37,13 @@ if(!isset($_SESSION['usuario'])){
         <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
     </div>
 </div>
-<?php
-// Incluir el archivo donde está definida la clase MenuHeader
-require_once '../src/Header.php';
-
-// Crear una instancia de la clase MenuHeader
-$menuHeader = new Header();
-
-// Generar el menú header y mostrarlo en la página
-echo $menuHeader->generateMenu();
-?>
+<div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
+    <?php echo $htmlHeader ?>
+</div>
 <div class="container mt-4">
     <h4 class="text-center mt-3">About</h4>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aut deserunt est facere laboriosam molestiae qui repudiandae. Ad architecto beatae blanditiis consequuntur corporis deleniti dolor dolore eius exercitationem harum illum in ipsam laborum minima, obcaecati omnis praesentium, quae, qui quibusdam quis repellendus reprehenderit repudiandae saepe soluta tempora tempore velit veritatis.</p>
 </div>
-<?php
-require_once '../src/Footer.php';
-$footer = new Footer();
-echo $footer->generateFooter();
-?>
+<?php echo $htmlFooter ?>
 </body>
 </html>

@@ -1,6 +1,9 @@
 <?php
 
 require_once '../vendor/autoload.php';
+require_once '../src/Footer.php';
+require_once '../src/Header.php';
+
 
 use Jorgem\ProyectoReflejos\ProgramasController;
 
@@ -10,6 +13,12 @@ if(!isset($_SESSION['usuario'])){
     header('Location:login.php');
     die();
 }
+$header = new Header();
+$htmlHeader= $header->generateMenu();
+
+$footer = new Footer();
+$htmlFooter = $footer->generateFooter();
+
 $controller = new ProgramasController();
 $data = $controller->getProgramas()
 ?>
@@ -32,24 +41,15 @@ $data = $controller->getProgramas()
         <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
     </div>
 </div>
-<?php
-// Incluir el archivo donde está definida la clase MenuHeader
-require_once '../src/Header.php';
-// Crear una instancia de la clase MenuHeader
-$menuHeader = new Header();
-// Generar el menú header y mostrarlo en la página
-echo $menuHeader->generateMenu();
-?>
+<div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
+    <?php echo $htmlHeader ?>
+</div>
 
 <div class="container mt-4">
     <h4 class="text-center mt-3">Lista de programas</h4>
     <?php var_dump($data); ?>
 </div>
 
-<?php
-require_once '../src/Footer.php';
-$footer = new Footer();
-echo $footer->generateFooter();
-?>
+<?php echo $htmlFooter ?>
 </body>
 </html>

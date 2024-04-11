@@ -9,16 +9,16 @@ class Header {
             // Agrega más elementos de menú según sea necesario
         ];
 
-        $menu = '<div>';
-        $menu .= '<nav class="nav justify-content-start">';
-        $menu .= '<ul class="nav">';
+        $menu = '<div >';
+        $menu .= '<nav class="nav justify-content-start p-2">';
+        $menu .= '<li class="nav"><img class="img-thumbnail" style="width: 50px; height: 50px" src="../logoPR.jpg"></li>';
         foreach ($menuItems as $item) {
             $menu .= '<li><a class="nav-link" href="' . $item['url'] . '">' . $item['text'] . '</a></li>';
         }
         $menu .= '</ul>';
         $menu .= '</nav>';
         $menu .= '</div>';
-
+        $menu .= '<div class="d-inline-flex p-2 "><input type="text" size="15px" value="' . $_SESSION['usuario'] . '" class="form-control mr-2 bg-light text-info font-weight-bold" disabled><a href="../src/cerrar.php" class="btn btn-info mr-2">Salir</a></div>';
         return $menu;
     }
 }
