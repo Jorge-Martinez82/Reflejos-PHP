@@ -20,7 +20,19 @@ $footer = new Footer();
 $htmlFooter = $footer->generateFooter();
 
 $controller = new ProgramasController();
-$data = $controller->getProgramas()
+$data = $controller->getProgramas();
+
+
+if (isset($_POST['programaId'])) {
+    // Obtén el ID del deportista de la solicitud
+    $programaId = $_POST['programaId'];
+    // Llama al método deleteUser del controlador para eliminar el deportista
+    $controller->deletePrograma($programaId);
+
+    // Recarga la página para reflejar los cambios (opcional)
+    header('Location: programas.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,24 +42,21 @@ $data = $controller->getProgramas()
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Programas</title>
+    <style>
+        .container {
+            margin-top: 100px; /* Ajusta el valor según sea necesario */
+        }
+    </style>
 </head>
 <body>
-<div class="d-flex justify-content-between">
-    <h1>Reflejos</h1>
-    <div class="float float-right d-inline-flex mt-2 align-items-baseline">
-        <input type="text" size='10px' value="<?php echo $_SESSION['usuario']; ?>" class="form-control
-    mr-2 bg-transparent text-info font-weight-bold" disabled>
-        <!--boton que ejecuta cerrar.php-->
-        <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
-    </div>
-</div>
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
 </div>
 
-<div class="container mt-4">
+<div class="container">
     <h4 class="text-center mt-3">Lista de programas</h4>
-    <?php var_dump($data); ?>
+    <a class="btn btn-outline-primary btn-sm btn-block" href="crearPrograma.php">Crear programa</a>
+    <?php echo $data; ?>
 </div>
 
 <?php echo $htmlFooter ?>

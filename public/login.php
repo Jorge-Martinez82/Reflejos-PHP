@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
+
     // Llama al método login del controlador
     $errorMessage = $validarUsuario->login($email, $password);
 }
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p style="color: red;"><?php echo $errorMessage; ?></p>
 <?php endif; ?>
 <div class="card-body">
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+<form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
     <div class="input-group form-group">
 
     <input class="form-control" placeholder="usuario" type="email" id="email" name="email" required><br><br>

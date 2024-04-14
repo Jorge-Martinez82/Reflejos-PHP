@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container mt-4">
 <h4 class="text-center mt-3">Modificar Deportista</h4>
 
-<form action="../src/procesarFormularios.php" method="post">
+<form action="../src/procesarFormDeportistas.php" method="post">
     <input type="hidden" name="formulario" value="formularioModificar">
     <input type="hidden" name="idDeportista" value="<?php echo $deportistaId; ?>">
 

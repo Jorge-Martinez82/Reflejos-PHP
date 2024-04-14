@@ -2,6 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
+use Jorgem\ProyectoReflejos\GenerarIDToken;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Auth;
 
@@ -18,6 +19,9 @@ use Kreait\Firebase\Auth;
             $user = $this->auth->signInWithEmailAndPassword($email, $password);
             session_start();
             $_SESSION['usuario'] = $user->data()['email']; // creo la variable de sesión con el nombre del usuario
+            $_SESSION['contraseña'] = $password;
+            $generarIDToken = new GenerarIDToken();
+            $generarIDToken->generarToken();
             // El inicio de sesión fue exitoso, redirige a una página protegida
             header("Location: deportistas.php");
             exit();

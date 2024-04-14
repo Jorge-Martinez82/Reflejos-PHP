@@ -1,21 +1,24 @@
 <?php
-
 namespace Jorgem\ProyectoReflejos;
 require_once 'config.php';
 use Symfony\Component\HttpClient\HttpClient;
 class DeportistasController {
 
+
     public function getDeportistas() {
-        $url = FIRESTORE_URL;
-        $key = FIRESTORE_API_KEY;
+
+        $url = FIRESTORE_URL . 'deportistas';
         // Crear una instancia del cliente HTTP
         $client = HttpClient::create();
 
         // Realizar una solicitud GET a una URL
-        $response = $client->request('GET', $url . 'deportistas' . $key);
+        $response = $client->request('GET', $url , [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $_SESSION['idToken']
+            ],
+        ]);
         // Obtener el contenido de la respuesta en formato JSON
         $data = $response->toArray();
-
 
         $html = ''; // Inicializa la variable HTML fuera del bucle
         $html .= "<table class='table mt-2'>"; // Inicia la tabla
@@ -25,11 +28,33 @@ class DeportistasController {
             $parts = explode('/', $deportista['name']);
             $deportistaId = end($parts);
             // Agrega una fila para cada campo del deportista
-            $html .= "<tr><td><strong>Nombre:</strong></td><td>" . $deportista['fields']['nombre']['stringValue'] . "</td></tr>";
-            $html .= "<tr><td><strong>Apellido:</strong></td><td>" . $deportista['fields']['apellido1']['stringValue'] . " " . $deportista['fields']['apellido2']['stringValue'] . "</td></tr>";
+
+            $html .= "<thead class='bg-info'>\n";
+            $html .= "<tr>\n";
+            $html .= "<th scope='col' style='width:22rem;'>".$deportista['fields']['nombre']['stringValue'] ." "
+                . $deportista['fields']['apellido1']['stringValue']." "
+                . $deportista['fields']['apellido2']['stringValue'] ."</th>\n";
+            $html .= "<th scope='col' class='text-right'>\n";
+            $html .= "</th></tr>\n";
+            $html .= "</thead>\n";
             $html .= "<tr><td><strong>Fecha de nacimiento:</strong></td><td>" . $deportista['fields']['fechanacimiento']['timestampValue'] . "</td></tr>";
             $html .= "<tr><td><strong>Deporte:</strong></td><td>" . $deportista['fields']['deporte']['stringValue'] . "</td></tr>";
             $html .= "<tr><td><strong>Club:</strong></td><td>" . $deportista['fields']['club']['stringValue'] . "</td></tr>";
+
+//            $lesion = (function($deportista) {
+//                $url = 'https://firestore.googleapis.com/v1/' . $deportista['fields']['historiaclinica']['arrayValue']['values'][0]['referenceValue'];
+//                $client = HttpClient::create();
+//                $response = $client->request('GET', $url , [
+//                    'headers' => [
+//                        'Authorization' => 'Bearer ' . $_SESSION['idToken']
+//                    ],
+//                ]);
+//                $data = $response->toArray();
+//                return ($data['fields']['descripcion']['stringValue']);
+//            })($deportista);
+
+            //$html .= "<tr><td><strong>Lesion:</strong></td><td>" . $lesion . "</td></tr>";
+
             $html .= "<tr><td></td><td>
                 <div class='d-flex justify-content-end'>
                     <form method='POST' class='mr-2'>
@@ -52,8 +77,7 @@ class DeportistasController {
     }
     // Función para crear un nuevo usuario
     public function createDeportista($userData) {
-        $url = FIRESTORE_PATH_CD;
-        $key = FIRESTORE_API_KEY;
+        $url = FIRESTORE_URL . 'deportistas';
 
         // Crear una instancia del cliente HTTP
         $client = HttpClient::create();
@@ -71,9 +95,10 @@ class DeportistasController {
         $jsonData = json_encode($deportistaData, JSON_UNESCAPED_UNICODE);
 
         // Realizar una solicitud POST a la URL de Firestore para agregar un nuevo documento a la colección de deportistas
-        $response = $client->request('POST', $url, [
+        $response = $client->request('POST', $url , [
             'headers' => [
                 'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $_SESSION['idToken']
             ],
             'body' => $jsonData,
         ]);
@@ -121,27 +146,36 @@ class DeportistasController {
 
         $json = json_encode($jsonArray, JSON_PRETTY_PRINT);
 
-        $url = FIRESTORE_PATH_CD;
-        $key = FIRESTORE_API_KEY;
+        $url = FIRESTORE_URL . 'deportistas/';
         $urlfinal = $url . $userId . '?currentDocument.exists=true' . $updateMaskFields;
         $client = HttpClient::create();
 
         $response = $client->request('PATCH', $urlfinal, [
             'headers' => [
                 'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $_SESSION['idToken']
             ],
             'body' => $json,
         ]);
+        if ($response->getStatusCode() === 204) {
+            return true; // Éxito
+        } else {
+            return false; // Error
+        }
     }
 
     // Función para eliminar un usuario por su ID
     public function deleteDeportista($userId) {
-        $url = FIRESTORE_PATH_CD;
-        $key = FIRESTORE_API_KEY;
+        $url = FIRESTORE_URL . 'deportista/';
         $client = HttpClient::create();
 
         // Realizar una solicitud DELETE a la URL de Firestore para eliminar el deportista
-        $response = $client->request('DELETE', $url . $userId . $key);
+        $response = $client->request('DELETE', $url . $userId, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $_SESSION['idToken']
+            ],
+        ]);
 
         // Verificar si la operación fue exitosa
         if ($response->getStatusCode() === 204) {

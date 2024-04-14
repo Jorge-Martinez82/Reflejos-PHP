@@ -23,7 +23,7 @@ $htmlFooter = $footer->generateFooter();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Crear Nuevo Deportista</title>
+    <title>Crear Nuevo Programa</title>
 </head>
 <body>
 <div class="d-flex justify-content-between">
@@ -41,36 +41,34 @@ $htmlFooter = $footer->generateFooter();
 
 <div class="container mt-4">
 <h4 class="text-center mt-3">Crear Nuevo Deportista</h4><br>
-    <form action="../src/procesarFormDeportistas.php" method="post">
+    <form action="../src/procesarFormProgramas.php" method="post">
 
         <div class="row" >
             <div class="col">
-                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="nombre" required><br>
+                <input class="form-control" type="text" id="descripcion" name="descripcion" placeholder="Descripcion" required><br>
             </div>
-            <div class="col">
-                <input class="form-control" type="text" id="apellido1" name="apellido1" placeholder="apellido1" required><br>
-            </div>
+
         </div>
         <div class="row" >
             <div class="col">
-                <input class="form-control" type="text" id="apellido2" name="apellido2" placeholder="apellido2" required><br>
+                <input class="form-control" type="number" id="distancia" name="distancia" placeholder="Distancia" required><br>
             </div>
             <div class="col">
-                <input class="form-control" type="date" id="fechanacimiento" name="fechanacimiento" required><br>
+                <input class="form-control" type="number" id="nciclos" name="nciclos" placeholder="Nciclos" required><br>
             </div>
         </div>
 
         <div class="row" >
             <div class="col">
-                <input class="form-control" type="text" id="deporte" name="deporte" placeholder="deporte" required><br>
+                <input class="form-control" type="number" id="tdescanso" name="tdescanso" placeholder="Tdescanso" required><br>
             </div>
             <div class="col">
-                <input class="form-control" type="text" id="club" name="club" placeholder="club"><br>
+                <input class="form-control" type="number" id="tejercicio" name="tejercicio" placeholder="Tejercicio"><br>
             </div>
         </div>
         <div>
-        <input class="btn btn-outline-success mr-2" type="submit" value="Crear Deportista">
-        <a href="deportistas.php">Volver</a>
+        <input class="btn btn-outline-success mr-2" type="submit" value="Crear Programa">
+        <a href="programas.php">Volver</a>
         </div>
     </form>
 
