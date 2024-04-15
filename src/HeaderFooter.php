@@ -1,7 +1,7 @@
 <?php
 // menu.php
-class Header {
-    public function generateMenu() {
+class HeaderFooter {
+    public function generarMenu() {
         $menuItems = [
             ['url' => 'deportistas.php', 'text' => 'Deportistas'],
             ['url' => 'programas.php', 'text' => 'Programas'],
@@ -20,6 +20,13 @@ class Header {
         $menu .= '</div>';
         $menu .= '<div class="d-inline-flex p-2 "><input type="text" size="15px" value="' . $_SESSION['usuario'] . '" class="form-control mr-2 bg-light text-info font-weight-bold" disabled><a href="../src/cerrar.php" class="btn btn-info mr-2">Salir</a></div>';
         return $menu;
+    }
+
+    public function generarFooter() {
+
+        $footer = '<p style="font-size: x-small">Jorge Martinez</p>';
+        $footer .= '<p style="font-size: x-small">I.E.S Politecnico Estella 2024</p>';
+        return $footer;
     }
 }
 ?>

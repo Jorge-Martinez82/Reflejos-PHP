@@ -1,18 +1,18 @@
 <?php
-require_once '../src/ValidarUsuario.php'; // Incluye el controlador
+require_once '../src/ValidarUsuario.php'; // incluyo el controlador
 
-// Crea una instancia del controlador
+// creo una instancia del controlador
 $validarUsuario = new ValidarUsuario();
 
-// Verifica si se ha enviado el formulario de inicio de sesión
+// verifico si se ha enviado el formulario de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtiene las credenciales del formulario
+    // obtengo las credenciales del formulario
     $email = $_POST["email"];
     $password = $_POST["password"];
 
 
-    // Llama al método login del controlador
-    $errorMessage = $validarUsuario->login($email, $password);
+    // Llama al método login del controlador y en caso de que devuelva error, lo guarda en la variable
+    $mensajeError = $validarUsuario->login($email, $password);
 }
 ?>
 
@@ -33,8 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="card-header">
 <h2>Iniciar sesión</h2>
 </div>
-<?php if (isset($errorMessage)) : ?>
-    <p style="color: red;"><?php echo $errorMessage; ?></p>
+<!-- si hay mensjae de error el login ha fallado y muestro el mensaje-->
+<?php if (isset($mensajeError)) : ?>
+    <p style="color: red;"><?php echo $mensajeError; ?></p>
 <?php endif; ?>
 <div class="card-body">
 <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">

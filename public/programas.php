@@ -1,11 +1,9 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once '../src/Footer.php';
-require_once '../src/Header.php';
+require_once '../src/HeaderFooter.php'; // incluyo la clase
 
-
-use Jorgem\ProyectoReflejos\ProgramasController;
+use Jorgem\ProyectoReflejos\ProgramasController; // utilizare el controlador
 
 session_start(); // inicio sesion
 // si no existe la variable de session que crea Validar significa que el login ha fallado te redirige otra vez a login
@@ -13,23 +11,23 @@ if(!isset($_SESSION['usuario'])){
     header('Location:login.php');
     die();
 }
-$header = new Header();
-$htmlHeader= $header->generateMenu();
+// instancio y creo el menu y footer
+$header = new HeaderFooter();
+$htmlHeader= $header->generarMenu();
+$htmlFooter = $header->generarFooter();
 
-$footer = new Footer();
-$htmlFooter = $footer->generateFooter();
-
+// instancio y creo la lista de programas
 $controller = new ProgramasController();
 $data = $controller->getProgramas();
 
 
 if (isset($_POST['programaId'])) {
-    // Obtén el ID del deportista de la solicitud
+    // obtengo el ID del deportista de la solicitud
     $programaId = $_POST['programaId'];
-    // Llama al método deleteUser del controlador para eliminar el deportista
+    // llamo al método deleteUser del controlador para eliminar el deportista
     $controller->deletePrograma($programaId);
 
-    // Recarga la página para reflejar los cambios (opcional)
+    // recargo la página para reflejar los cambios
     header('Location: programas.php');
     exit();
 }
@@ -44,7 +42,7 @@ if (isset($_POST['programaId'])) {
     <title>Programas</title>
     <style>
         .container {
-            margin-top: 100px; /* Ajusta el valor según sea necesario */
+            margin-top: 100px;
         }
     </style>
 </head>
@@ -59,6 +57,8 @@ if (isset($_POST['programaId'])) {
     <?php echo $data; ?>
 </div>
 
-<?php echo $htmlFooter ?>
+<div class="footer fixed-bottom bg-dark text-white text-center d-flex justify-content-between p-1" style="height: 30px">
+    <?php echo $htmlFooter ?>
+</div>
 </body>
 </html>

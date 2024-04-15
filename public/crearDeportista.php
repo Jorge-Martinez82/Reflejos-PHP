@@ -1,19 +1,17 @@
 <?php
 
 session_start(); // inicio sesion
-// si no existe la variable de session que crea Validar significa que el login ha fallado te redirige otra vez a login
 
-require_once '../src/Footer.php';
-require_once '../src/Header.php';
+require_once '../src/HeaderFooter.php';
+// si no existe la variable de session que crea Validar significa que el login ha fallado te redirige otra vez a login
 if(!isset($_SESSION['usuario'])){
     header('Location:login.php');
     die();
 }
-$header = new Header();
-$htmlHeader= $header->generateMenu();
-
-$footer = new Footer();
-$htmlFooter = $footer->generateFooter();
+// instancio y llamo a los metodos para el menu y footer
+$header = new HeaderFooter();
+$htmlHeader= $header->generarMenu();
+$htmlFooter = $header->generarFooter();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,22 +22,20 @@ $htmlFooter = $footer->generateFooter();
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Crear Nuevo Deportista</title>
+    <style>
+        .container {
+            margin-top: 100px;
+        }
+    </style>
 </head>
 <body>
-<div class="d-flex justify-content-between">
-    <h1>Reflejos</h1>
-    <div class="float float-right d-inline-flex mt-2 align-items-baseline">
-        <input type="text" size='10px' value="<?php echo $_SESSION['usuario']; ?>" class="form-control
-    mr-2 bg-transparent text-info font-weight-bold" disabled>
-        <!--boton que ejecuta cerrar.php-->
-        <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
-    </div>
-</div>
+<!--creo tres elementos div e incluyo dentro el menu, el contenedor de deportistas y el footer-->
+
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
 </div>
 
-<div class="container mt-4">
+<div class="container">
 <h4 class="text-center mt-3">Crear Nuevo Deportista</h4><br>
     <form action="../src/procesarFormDeportistas.php" method="post">
 
@@ -75,7 +71,8 @@ $htmlFooter = $footer->generateFooter();
     </form>
 
 </div>
-<?php echo $htmlFooter ?>
-</body>
+<div class="footer fixed-bottom bg-dark text-white text-center d-flex justify-content-between p-1" style="height: 30px">
+    <?php echo $htmlFooter ?>
+</div></body>
 </html>
 

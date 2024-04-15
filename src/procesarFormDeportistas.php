@@ -3,62 +3,58 @@ session_start();
 require_once '../vendor/autoload.php';
 
 use Jorgem\ProyectoReflejos\DeportistasController;
+// instancion el controlador
 $deportistasController = new DeportistasController();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar de qué formulario provienen los datos
+    // comprueba mediante un condicional si el formulario es el de modificar
     if ($_POST['formulario'] === 'formularioModificar') {
-        // Capturar los datos específicos del formulario de modificación
+        // creo un array para los campos modificados
         $campos_modificados = array();
-        // Recoger los campos que no están vacíos
+        // selecciono los campos que no estan vacios
         foreach ($_POST as $campo => $valor) {
             if (!empty($valor)) {
-                // Guardar el nombre del campo modificado y su valor
+                // si no esta vacio guado el campo modificado y su valor en el array
                 $campos_modificados[$campo] = $valor;
             }
         }
+        // formateo la fecha de nacimiento, este campo siempre estara incluido ya que el input
+        // tipo date no permite placeholder asi que lo tengo que mostrar tal cual y volverlo a enviar
         $timestamp = strtotime($campos_modificados['fechanacimiento']);
-
-// Formatear el timestamp
         $fechaFormateada = date('Y-m-d\TH:i:s\Z', $timestamp);
-
-// Actualizar el array
         $campos_modificados['fechanacimiento'] = $fechaFormateada;
 
-
+        // extraigo el primer valor del array (nombre del formulario) que ya no necesito
         array_shift($campos_modificados);
+        // extraido y guardo el id que utilizare para hacer la peticion
         $idDeportista = array_shift($campos_modificados);
 
+        // llamo al metodo de actualizacion pasando el id y los campos a modificar
         $deportistasController->updateDeportista($idDeportista , $campos_modificados);
+        // redirijo a la pagina principal
         header('Location: ../public/deportistas.php');
 
     } else{
-        // Capturar los datos específicos del formulario de creación
-        // Aquí puedes hacer lo que necesites con los datos del formulario de creación
-        $nombre = $_POST['nombre'];
-        $apellido1 = $_POST['apellido1'];
-        $apellido2 = $_POST['apellido2'];
-        $fechanacimiento = date('Y-m-d\TH:i:s\Z', strtotime($_POST['fechanacimiento']));
-        $deporte = $_POST['deporte'];
-        $club = $_POST['club'];
+        // capturo los datos especificos del formulario de creacion
+        $datosDeportista = [
+            'nombre' => $_POST['nombre'],
+            'apellido1' => $_POST['apellido1'],
+            'apellido2' => $_POST['apellido2'],
+            'fechanacimiento' => date('Y-m-d\TH:i:s\Z', strtotime($_POST['fechanacimiento'])),
+            'deporte' => $_POST['deporte'],
+            'club' => $_POST['club']
+        ];
 
+        // llamo al metodo para crear un nuevo deportista y le paso los datos
+        $resultado = $deportistasController->createDeportista($datosDeportista);
 
-        // Llama al método para crear un nuevo deportista
-        $resultado = $deportistasController->createDeportista([
-            'nombre' => $nombre,
-            'apellido1' => $apellido1,
-            'apellido2' => $apellido2,
-            'fechanacimiento' => $fechanacimiento,
-            'deporte' => $deporte,
-            'club' => $club
-        ]);
-
-        // Verifica si la operación fue exitosa
+        // verifico si la operación fue exitosa
         if ($resultado) {
-            // Redirige a una página de éxito o muestra un mensaje de éxito
+            // redirijo a la pagina principal
             header('Location: ../public/deportistas.php');
             exit();
         } else {
-            // Muestra un mensaje de error
+            // muestro un mensaje de error
             echo "Error al crear el deportista.";
         }
     }

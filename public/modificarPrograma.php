@@ -1,7 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../src/Footer.php';
-require_once '../src/Header.php';
+require_once '../src/HeaderFooter.php';
 use Jorgem\ProyectoReflejos\DeportistasController;
 
 session_start(); // inicio sesion
@@ -11,11 +10,9 @@ if(!isset($_SESSION['usuario'])){
     die();
 }
 
-$header = new Header();
-$htmlHeader= $header->generateMenu();
-
-$footer = new Footer();
-$htmlFooter = $footer->generateFooter();
+$header = new HeaderFooter();
+$htmlHeader= $header->generarMenu();
+$htmlFooter = $header->generarFooter();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupera los datos del formulario
@@ -46,23 +43,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Modificar Programa</title>
+    <style>
+        .container {
+            margin-top: 100px;
+        }
+    </style>
 </head>
 <body>
-<div class="d-flex justify-content-between">
-    <h1>Reflejos</h1>
-    <div class="float float-right d-inline-flex mt-2 align-items-baseline">
-        <input type="text" size='10px' value="<?php echo $_SESSION['usuario']; ?>" class="form-control
-    mr-2 bg-transparent text-info font-weight-bold" disabled>
-        <!--boton que ejecuta cerrar.php-->
-        <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
-    </div>
-</div>
+
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
 </div>
 
-<div class="container mt-4">
-    <h4 class="text-center mt-3">Modificar Deportista</h4>
+<div class="container">
+    <h4 class="text-center mt-3">Modificar Programa</h4>
 
     <form action="../src/procesarFormProgramas.php" method="post">
         <input type="hidden" name="formulario" value="formularioModificar">
@@ -104,7 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
 </div>
-<?php echo $htmlFooter ?>
+<div class="footer fixed-bottom bg-dark text-white text-center d-flex justify-content-between p-1" style="height: 30px">
+    <?php echo $htmlFooter ?>
+</div>
 </body>
 </html>
 

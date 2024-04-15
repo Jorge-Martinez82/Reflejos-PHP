@@ -1,8 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../src/Footer.php';
-require_once '../src/Header.php';
-use Jorgem\ProyectoReflejos\DeportistasController;
+require_once '../src/HeaderFooter.php';// incluyo la clase para crear el menu y footer
 
 session_start(); // inicio sesion
 // si no existe la variable de session que crea Validar significa que el login ha fallado te redirige otra vez a login
@@ -10,20 +8,19 @@ if(!isset($_SESSION['usuario'])){
     header('Location:login.php');
     die();
 }
-
-$header = new Header();
-$htmlHeader= $header->generateMenu();
-
-$footer = new Footer();
-$htmlFooter = $footer->generateFooter();
+// instancio y creo menu y footer
+$header = new HeaderFooter();
+$htmlHeader= $header->generarMenu();
+$htmlFooter = $header->generarFooter();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recupera los datos del formulario
+    // recupero los datos del formulario
     $jsonDeportista = $_POST['deportista'];
 
-    // Decodifica la cadena JSON en un array PHP
+    // decodifico la cadena JSON en un array
     $deportista = json_decode($jsonDeportista, true);
-    // Accede a los datos del deportista como lo harías con cualquier otro array
+    // accedo a los datos del deportista para obtener los campos que me interesan
+    // y los guardo en variables que utilizare para rellenar los placeholder del formulario
     $parts = explode('/', $deportista['name']);
     $deportistaId = end($parts);
     $nombre = $deportista['fields']['nombre']['stringValue'];
@@ -48,22 +45,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Crear Nuevo Deportista</title>
+    <style>
+        .container {
+            margin-top: 100px;
+        }
+    </style>
 </head>
 <body>
-<div class="d-flex justify-content-between">
-    <h1>Reflejos</h1>
-    <div class="float float-right d-inline-flex mt-2 align-items-baseline">
-        <input type="text" size='10px' value="<?php echo $_SESSION['usuario']; ?>" class="form-control
-    mr-2 bg-transparent text-info font-weight-bold" disabled>
-        <!--boton que ejecuta cerrar.php-->
-        <a href="../src/cerrar.php" class="btn btn-warning mr-2">Salir</a>
-    </div>
-</div>
+
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
 </div>
 
-<div class="container mt-4">
+<div class="container">
 <h4 class="text-center mt-3">Modificar Deportista</h4>
 
 <form action="../src/procesarFormDeportistas.php" method="post">
@@ -108,8 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 </div>
-<?php echo $htmlFooter ?>
-</body>
+<div class="footer fixed-bottom bg-dark text-white text-center d-flex justify-content-between p-1" style="height: 30px">
+    <?php echo $htmlFooter ?>
+</div></body>
 </html>
 
 
