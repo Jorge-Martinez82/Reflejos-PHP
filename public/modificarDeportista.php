@@ -33,9 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_formateada = $fechanacimiento->format('Y-m-d');
 }
 
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Crear Nuevo Deportista</title>
+    <title>Modificar Deportista</title>
     <style>
         .container {
             margin-top: 100px;
@@ -58,49 +55,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <div class="container">
-<h4 class="text-center mt-3">Modificar Deportista</h4>
-
-<form action="../src/procesarFormDeportistas.php" method="post">
-    <input type="hidden" name="formulario" value="formularioModificar">
-    <input type="hidden" name="idDeportista" value="<?php echo $deportistaId; ?>">
-
-
-    <div class="row">
-        <div class="col">
-            <label for="nombre">Nombre:</label>
-            <input class="form-control" type="text" id="nombre" name="nombre" placeholder="<?php echo $nombre; ?>"><br>
+    <h4 class="text-center mt-3">Modificar Deportista</h4>
+    <form action="../src/procesarFormDeportistas.php" method="post">
+        <input type="hidden" name="formulario" value="formularioModificar">
+        <input type="hidden" name="idDeportista" value="<?php echo $deportistaId; ?>">
+        <div class="row">
+            <div class="col">
+                <label for="nombre">Nombre:</label>
+                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="<?php echo $nombre; ?>"><br>
+            </div>
+            <div class="col">
+                <label for="apellido1">Apellido 1:</label>
+                <input class="form-control" type="text" id="apellido1" name="apellido1" placeholder="<?php echo $apellido1; ?>"><br>
+            </div>
         </div>
-        <div class="col">
-            <label for="apellido1">Apellido 1:</label>
-            <input class="form-control" type="text" id="apellido1" name="apellido1" placeholder="<?php echo $apellido1; ?>"><br>
+        <div class="row">
+            <div class="col">
+                <label for="apellido2">Apellido 2:</label>
+                <input class="form-control" type="text" id="apellido2" name="apellido2" placeholder="<?php echo $apellido2; ?>"><br>
+            </div>
+            <div class="col">
+                <label for="fechanacimiento">Fecha de Nacimiento:</label>
+                <input class="form-control" type="date" id="fechanacimiento" name="fechanacimiento" value="<?php echo $fecha_formateada; ?>"><br>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label for="apellido2">Apellido 2:</label>
-            <input class="form-control" type="text" id="apellido2" name="apellido2" placeholder="<?php echo $apellido2; ?>"><br>
+        <div class="row">
+            <div class="col">
+                <label for="deporte">Deporte:</label>
+                <input class="form-control" type="text" id="deporte" name="deporte" placeholder="<?php echo $deporte; ?>"><br>
+            </div>
+            <div class="col">
+                <label for="club">Club:</label>
+                <input class="form-control" type="text" id="club" name="club" placeholder="<?php echo $club; ?>"><br>
+            </div>
         </div>
-        <div class="col">
-            <label for="fechanacimiento">Fecha de Nacimiento:</label>
-            <input class="form-control" type="date" id="fechanacimiento" name="fechanacimiento" value="<?php echo $fecha_formateada; ?>"><br>
+        <div>
+            <input class="btn btn-outline-warning" type="submit" value="Modificar Deportista">
+            <a  href="deportistas.php">Volver</a>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label for="deporte">Deporte:</label>
-            <input class="form-control" type="text" id="deporte" name="deporte" placeholder="<?php echo $deporte; ?>"><br>
-        </div>
-        <div class="col">
-            <label for="club">Club:</label>
-            <input class="form-control" type="text" id="club" name="club" placeholder="<?php echo $club; ?>"><br>
-        </div>
-    </div>
-    <div>
-        <input class="btn btn-outline-warning" type="submit" value="Modificar Deportista">
-        <a  href="deportistas.php">Volver</a>
-    </div>
-</form>
-
+    </form>
 </div>
 <div class="footer fixed-bottom bg-dark text-white text-center d-flex justify-content-between p-1" style="height: 30px">
     <?php echo $htmlFooter ?>

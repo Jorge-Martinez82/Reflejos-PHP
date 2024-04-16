@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // redirijo a la pagina principal
         header('Location: ../public/deportistas.php');
 
-    } else{
+    } else{ // el formulario es el de crear
         // capturo los datos especificos del formulario de creacion
         $datosDeportista = [
             'nombre' => $_POST['nombre'],

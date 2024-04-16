@@ -6,7 +6,6 @@ use DateTime; // clase para trabajar con el formato de la fecha de nacimiento
 use Symfony\Component\HttpClient\HttpClient; // utilizo la clase HttpClient para realizar las peticiones
 class DeportistasController {
 
-
     // metodo que crea y devuelve el codigo HTML que incluira la informacion de los deportistas de la BD
     public function getDeportistas() {
 
@@ -16,14 +15,14 @@ class DeportistasController {
         $response = $client->request('GET', $url , [
             'headers' => [
                 // debo incluir el idToken que generé con la clase GenerarIdToken en ValidarUsuario
-                // para tener autorizacion a hacer la peticion
+                // para tener autorizacion para hacer la peticion
                 'Authorization' => 'Bearer ' . $_SESSION['idToken']
             ],
         ]);
         // obtengo el contenido de la respuesta en formato JSON y lo transformo en array
         $data = $response->toArray();
 
-        $html = ''; // creo la variable HTML fuera del bucle
+        $html = ''; // creo la variable HTML
         $html .= "<table class='table mt-2'>"; // creo una tabla que contendra la informacion
 
         // creo el fragmento HTML por cada deportista y lo concateno con el siguiente
@@ -78,9 +77,8 @@ class DeportistasController {
               </td></tr>";
 
         }
-
         $html .= "</table>";
-        return $html;
+        return $html; // devuelvo el bloque HTML
     }
 
     // Función para crear un nuevo usuario
@@ -121,10 +119,9 @@ class DeportistasController {
         }
     }
 
-
     // metodo para actualizar la informacion de un usuario
     public function updateDeportista($userId, $newDeportistaData) {
-        // inicializo la cadena para la url
+        // inicializo la cadena para incluir en la url
         $updateMaskFields = '';
         // voy añadiendo la sintaxis updateMask a la cadena por cada dato
         foreach ($newDeportistaData as $key => $value) {
@@ -146,7 +143,7 @@ class DeportistasController {
                 ];
             }
         }
-        // Creo el JSON usando el array
+        // creo el JSON usando el array
         $json = json_encode($jsonArray, JSON_PRETTY_PRINT);
         // inicio la url
         $url = FIRESTORE_URL . 'deportistas/';
@@ -168,23 +165,20 @@ class DeportistasController {
         }
     }
 
-    // Función para eliminar un usuario por su ID
+    // Función para eliminar un deportista por su ID
     public function deleteDeportista($deportistaId) {
         $url = FIRESTORE_URL . 'deportistas/';
         $client = HttpClient::create();
-
-        // Realizar una solicitud DELETE a la URL de Firestore para eliminar el deportista
+        // realizo una solicitud DELETE a la URL de Firestore para eliminar el deportista
         $response = $client->request('DELETE', $url . $deportistaId, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $_SESSION['idToken']
             ],
         ]);
-
-        // Verificar si la operación fue exitosa
         if ($response->getStatusCode() === 204) {
-            return true; // Éxito
+            return true;
         } else {
-            return false; // Error
+            return false;
         }
     }
 }

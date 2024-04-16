@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Decodifica la cadena JSON en un array PHP
     $programa = json_decode($jsonPrograma, true);
     // Accede a los datos del deportista como lo harías con cualquier otro array
-    $parts = explode('/', $programa['name']);
+    $parts = explode('/', $programa['name']); // extraigo el id del programa de 'name'
     $programaId = end($parts);
     $descripcion = $programa['fields']['descripcion']['stringValue'];
     $distancia = $programa['fields']['distancia']['integerValue'];
@@ -30,9 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tejercicio = $programa['fields']['tejercicio']['integerValue'];
 
 }
-
-
-
 
 ?>
 <!DOCTYPE html>

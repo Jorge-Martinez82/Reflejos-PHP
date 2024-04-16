@@ -5,7 +5,6 @@ namespace Jorgem\ProyectoReflejos;
 use Symfony\Component\HttpClient\HttpClient;
 require_once 'config.php';
 
-
 class GenerarIDToken{
     public function generarToken(){
         // realizo una peticion a la url proporcionada por Firebase, en ella tengo que indicar

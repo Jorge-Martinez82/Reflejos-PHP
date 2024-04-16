@@ -20,7 +20,6 @@ $htmlFooter = $header->generarFooter();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
     <title>Crear Nuevo Deportista</title>
     <style>
         .container {
@@ -30,7 +29,6 @@ $htmlFooter = $header->generarFooter();
 </head>
 <body>
 <!--creo tres elementos div e incluyo dentro el menu, el contenedor de deportistas y el footer-->
-
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
 </div>

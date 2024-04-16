@@ -1,34 +1,39 @@
 <?php
 
 namespace Jorgem\ProyectoReflejos;
-require_once 'config.php';
+require_once 'config.php'; // añado config y el cliente http
 use Symfony\Component\HttpClient\HttpClient;
 
 class ProgramasController{
 
+    // metodo que crea y devuelve el codigo HTML que incluira la informacion de los programas de la BD
     public function getProgramas(){
-        $url = FIRESTORE_URL . 'programas';
-        // Crear una instancia del cliente HTTP
+        $url = FIRESTORE_URL . 'programas'; // creo la url que apunta a la coleccion
+        // creo una instancia del cliente HTTP
         $client = HttpClient::create();
 
-        // Realizar una solicitud GET a una URL
+        // realizo la solicitud GET a una URL
         $response = $client->request('GET', $url , [
             'headers' => [
+                // debo incluir el idToken que generé con la clase GenerarIdToken en ValidarUsuario
+                // para tener autorizacion para hacer la peticion
                 'Authorization' => 'Bearer ' . $_SESSION['idToken']
             ],
         ]);
-        // Obtener el contenido de la respuesta en formato JSON
+        // obtengo el contenido de la respuesta en formato JSON
         $data = $response->toArray();
 
-        $html = ''; // Inicializa la variable HTML fuera del bucle
-        $html .= "<table class='table mt-2'>"; // Inicia la tabla
-
+        $html = ''; // creo la variable con la cadena a devolver
+        $html .= "<table class='table mt-2'>"; // inicio la tabla
+        // creo el fragmento HTML por cada programa y lo concateno con el siguiente
         foreach ($data['documents'] as $programa) {
+            // transformo los datos a JSON para enviarlos despues en modificar
             $jsonPrograma = json_encode($programa);
+            // para obtener el ID debo extraerlo del campo 'name', divido y obtengo el ID de su campo en el JSON
             $parts = explode('/', $programa['name']);
             $programaId = end($parts);
-            // Agrega una fila para cada campo del deportista
 
+            // agrego el fragmento de HTML por cada programa
             $html .= "<thead class='bg-success'>\n";
             $html .= "<tr>\n";
             $html .= "<th scope='col' style='width:22rem;'>".$programa['fields']['descripcion']['stringValue']."</th>\n";
@@ -51,23 +56,17 @@ class ProgramasController{
                     </form>
                 </div>
               </td></tr>";
-
-            // Agrega más filas aquí si es necesario
         }
-
         $html .= "</table>";
         return $html;
-
-
     }
 
+    // metodo para crear un programa
     public function createPrograma($programaData){
         $url = FIRESTORE_URL . 'programas';
-
-        // Crear una instancia del cliente HTTP
         $client = HttpClient::create();
-        // Construir los datos del nuevo deportista
-        $programaNewData = [
+        // construyo los datos del nuevo programa
+        $newProgramaData = [
             'fields' => [
                 'descripcion' => ['stringValue' => $programaData['descripcion']],
                 'distancia' => ['integerValue' => $programaData['distancia']],
@@ -76,9 +75,10 @@ class ProgramasController{
                 'tejercicio' => ['integerValue' => $programaData['tejercicio'] ?? ''],
             ]
         ];
-        $jsonData = json_encode($programaNewData, JSON_UNESCAPED_UNICODE);
+        // codifico e formato JSON
+        $jsonData = json_encode($newProgramaData, JSON_UNESCAPED_UNICODE);
 
-        // Realizar una solicitud POST a la URL de Firestore para agregar un nuevo documento a la colección de deportistas
+        // realizo la solicitud POST a la URL de Firestore para agregar un nuevo documento a la colección de programas
         $response = $client->request('POST', $url , [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -86,31 +86,26 @@ class ProgramasController{
             ],
             'body' => $jsonData,
         ]);
-
-        // Verificar el código de respuesta
         if ($response->getStatusCode() === 200) {
-            // El deportista se creó exitosamente
             return true;
         } else {
-            // Ocurrió un error al crear el deportista
             return false;
         }
     }
 
     public function updatePrograma($programaId, $newProgramData){
-// Implementa la lógica para actualizar la información de un usuario en la base de datos
-
-        $updateMaskFields = '';
-
+        $updateMaskFields = '';// inicializo la cadena para incluir en la url
+        // voy añadiendo la sintaxis updateMask a la cadena por cada dato
         foreach ($newProgramData as $key => $value) {
             $updateMaskFields .= "&updateMask.fieldPaths={$key}";
         }
-
+        // inicializo el array para crear el JSON en el formato que necesito
         $jsonArray = [
             'fields' => []
         ];
+        // recorro el array de datos y los voy introduciendo en en array JSON
         foreach ($newProgramData as $key => $value) {
-            if ($key === 'descripcion') {
+            if ($key === 'descripcion') { // para descripcion cambia el formato de dato
                 $jsonArray['fields'][$key] = [
                     'stringValue' => $value,
                 ];
@@ -120,15 +115,14 @@ class ProgramasController{
                 ];
             }
         }
-
+        // creo el JSON usando el array
         $json = json_encode($jsonArray, JSON_PRETTY_PRINT);
-        echo $json;
 
-        $url = FIRESTORE_URL . 'programas/';
+        $url = FIRESTORE_URL . 'programas/';// inicio la url
+        // creo la url final añadiendo el id a modificar y la sintaxis que me pide Firebase
         $urlfinal = $url . $programaId . '?currentDocument.exists=true' . $updateMaskFields;
         $client = HttpClient::create();
-
-        $response = $client->request('PATCH', $urlfinal, [
+        $response = $client->request('PATCH', $urlfinal, [ // hago la peticion con todos los datos que necesito
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $_SESSION['idToken']
@@ -136,17 +130,17 @@ class ProgramasController{
             'body' => $json,
         ]);
         if ($response->getStatusCode() === 204) {
-            return true; // Éxito
+            return true;
         } else {
-            return false; // Error
+            return false;
         }
     }
 
+    // Función para eliminar un programa por su ID
     public function deletePrograma($programaId){
         $url = FIRESTORE_URL . 'programas/';
         $client = HttpClient::create();
-
-        // Realizar una solicitud DELETE a la URL de Firestore para eliminar el deportista
+        // realizo una solicitud DELETE a la URL de Firestore para eliminar el deportista
         $response = $client->request('DELETE', $url . $programaId, [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -154,11 +148,10 @@ class ProgramasController{
             ],
         ]);
 
-        // Verificar si la operación fue exitosa
         if ($response->getStatusCode() === 204) {
-            return true; // Éxito
+            return true;
         } else {
-            return false; // Error
+            return false;
         }
     }
 }

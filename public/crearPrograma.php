@@ -28,6 +28,7 @@ $htmlFooter = $header->generarFooter();
     </style>
 </head>
 <body>
+<!--creo tres elementos div e incluyo dentro el menu, el formulario para crear programas y el footer-->
 
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
@@ -35,8 +36,8 @@ $htmlFooter = $header->generarFooter();
 
 <div class="container">
 <h4 class="text-center mt-3">Crear Nuevo Programa</h4><br>
+<!--    el action del form llama al gestor de formularios-->
     <form action="../src/procesarFormProgramas.php" method="post">
-
         <div class="row" >
             <div class="col">
                 <input class="form-control" type="text" id="descripcion" name="descripcion" placeholder="Descripcion" required><br>

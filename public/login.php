@@ -9,8 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // obtengo las credenciales del formulario
     $email = $_POST["email"];
     $password = $_POST["password"];
-
-
     // Llama al método login del controlador y en caso de que devuelva error, lo guarda en la variable
     $mensajeError = $validarUsuario->login($email, $password);
 }
@@ -23,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
     <title>Iniciar sesión</title>
 </head>
 <body>

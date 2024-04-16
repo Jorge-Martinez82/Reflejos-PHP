@@ -6,42 +6,39 @@ use Jorgem\ProyectoReflejos\ProgramasController;
 
 $programasController = new ProgramasController();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar de qué formulario provienen los datos
+    // verifico de que formulario provienen los datos
     if ($_POST['formulario'] === 'formularioModificar') {
-        // Capturar los datos específicos del formulario de modificación
+        // creo el array que contendra solo los campos modificados
         $campos_modificados = array();
-        // Recoger los campos que no están vacíos
+        // añado al array los campos modificados
         foreach ($_POST as $campo => $valor) {
             if (!empty($valor)) {
-                // Guardar el nombre del campo modificado y su valor
+                // guardo el nombre del campo modificado y su valor
                 $campos_modificados[$campo] = $valor;
             }
         }
+        // extraigo el primer valor del array (nombre del formulario) que ya no necesito
         array_shift($campos_modificados);
+        // extraido y guardo el id que utilizare para hacer la peticion
         $programaId = array_shift($campos_modificados);
+        // llamo al metodo de actualizacion pasando el id y los campos a modificar
         $programasController->updatePrograma($programaId , $campos_modificados);
-
-
+        // redirijo a la pagina principal
         header('Location: ../public/programas.php');
 
     } else{
-        // Capturar los datos específicos del formulario de creación
-        // Aquí puedes hacer lo que necesites con los datos del formulario de creación
-        $descripcion = $_POST['descripcion'];
-        $distancia = $_POST['distancia'];
-        $nciclos = $_POST['nciclos'];
-        $tdescanso = $_POST['tdescanso'];
-        $tejercicio = $_POST['tejercicio'];
+        // capturo los datos específicos del formulario de creación
+        $datosPrograma = [
+            'descripcion' => $_POST['descripcion'],
+            'distancia' => $_POST['distancia'],
+            'nciclos' => $_POST['nciclos'],
+            'tdescanso' => $_POST['tdescanso'],
+            'tejercicio' => $_POST['tejercicio']
+        ];
 
+        // llamo al metodo para crear un nuevo programa
+        $resultado = $programasController->createPrograma($datosPrograma);
 
-        // Llama al método para crear un nuevo deportista
-        $resultado = $programasController->createPrograma([
-            'descripcion' => $descripcion,
-            'distancia' => $distancia,
-            'nciclos' => $nciclos,
-            'tdescanso' => $tdescanso,
-            'tejercicio' => $tejercicio
-        ]);
 
         // Verifica si la operación fue exitosa
         if ($resultado) {

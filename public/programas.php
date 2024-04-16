@@ -47,10 +47,10 @@ if (isset($_POST['programaId'])) {
     </style>
 </head>
 <body>
+<!--creo tres elementos div e incluyo dentro el menu, el contenedor de programas y el footer-->
 <div class="d-flex justify-content-between fixed-top" style="background-color: #d7d7d7">
     <?php echo $htmlHeader ?>
 </div>
-
 <div class="container">
     <h4 class="text-center mt-3">Lista de programas</h4>
     <a class="btn btn-outline-primary btn-sm btn-block" href="crearPrograma.php">Crear programa</a>
