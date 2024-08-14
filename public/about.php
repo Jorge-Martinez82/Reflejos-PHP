@@ -36,7 +36,16 @@ $htmlFooter = $header->generarFooter();
 </div>
 <div class="container">
     <h4 class="text-center mt-3">About</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aut deserunt est facere laboriosam molestiae qui repudiandae. Ad architecto beatae blanditiis consequuntur corporis deleniti dolor dolore eius exercitationem harum illum in ipsam laborum minima, obcaecati omnis praesentium, quae, qui quibusdam quis repellendus reprehenderit repudiandae saepe soluta tempora tempore velit veritatis.</p>
+    <p>El proyecto REFLEJOS es una iniciativa colaborativa que se desarrollará en varios módulos de los ciclos formativos de Desarrollo de Aplicaciones Web, Desarrollo de Aplicaciones Multimedia y Administración de Sistemas Informáticos. Este proyecto implica una colaboración estrecha con los departamentos de Electricidad, Mecatrónica, Mecatrónica Industrial e Informática, con el fin de crear un producto deportivo real.</p>
+    <p>Esta aplicación permite al usuario logueado visualizar, crear, eliminar y modificar tanto deportistas como programas.</p>
+    <p>Tech stack:</p>
+</div>
+<div class="d-flex justify-content-around px-5">
+    <img style=" height: 100px;" src="../src/images/firestore.png" alt="">
+    <img style=" height: 100px;" src="../src/images/Apache_Software_Foundation_Logo_(2016).svg.png" alt="">
+    <img style=" height: 100px;" src="../src/images/PHP-logo.svg.png" alt="">
+    <img style=" height: 100px;" src="../src/images/Bootstrap_logo.svg.png" alt="">
+    <img style="width: 100px; height: 100px;" src="../src/images/PhpStorm_Icon.svg.png" alt="">
 </div>
 <div class="footer fixed-bottom bg-dark text-white text-center d-flex justify-content-between p-1" style="height: 30px">
     <?php echo $htmlFooter ?>

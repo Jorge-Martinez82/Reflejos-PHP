@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <div class="input-group form-group">
 
-    <input class="form-control" placeholder="usuario" type="password" id="password" name="password" required><br><br>
+    <input class="form-control" placeholder="password" type="password" id="password" name="password" required><br><br>
         <div class="form-group">
             <input type="submit" value="Iniciar" class="btn float-right btn-info" name='enviar' id="enviar">
         </div>
